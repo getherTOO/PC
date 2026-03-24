@@ -8,8 +8,13 @@
 # 실행 방법 (관리자 PowerShell):
 #   Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 #   .\setup-remote-control.ps1
+#   .\setup-remote-control.ps1 -Verbose   # 상세 출력 모드
 
 #Requires -RunAsAdministrator
+
+param(
+    [switch]$Verbose
+)
 
 $RED    = "Red"
 $GREEN  = "Green"
@@ -20,13 +25,14 @@ $BLUE   = "Blue"
 function Log-Ok   { param($msg) Write-Host "[OK]   $msg" -ForegroundColor $GREEN }
 function Log-Warn { param($msg) Write-Host "[WARN] $msg" -ForegroundColor $YELLOW }
 function Log-Err  { param($msg) Write-Host "[ERR]  $msg" -ForegroundColor $RED }
-function Log-Info { param($msg) Write-Host "       $msg" }
+function Log-Info { param($msg) if ($Verbose) { Write-Host "       $msg" } }
 function Log-Fix  { param($msg) Write-Host "[FIX]  $msg" -ForegroundColor $BLUE }
 function Log-Step { param($msg) Write-Host "`n▶ $msg" -ForegroundColor $CYAN }
 
 Write-Host "╔══════════════════════════════════════════╗" -ForegroundColor Cyan
 Write-Host "║   PC 원격 제어 환경 설정 (Windows)       ║" -ForegroundColor Cyan
 Write-Host "╚══════════════════════════════════════════╝" -ForegroundColor Cyan
+if ($Verbose) { Write-Host "       verbose mode enabled" -ForegroundColor Cyan }
 Write-Host ""
 
 $STEPS_OK   = 0

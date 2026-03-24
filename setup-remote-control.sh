@@ -8,8 +8,21 @@
 #
 # 실행 방법:
 #   chmod +x setup-remote-control.sh && sudo ./setup-remote-control.sh
+#   sudo ./setup-remote-control.sh --verbose   # 상세 출력 모드
 
 set -euo pipefail
+
+VERBOSE=false
+for arg in "$@"; do
+    case "$arg" in
+        --verbose|-v) VERBOSE=true ;;
+        --help|-h)
+            echo "Usage: sudo $0 [--verbose|-v]"
+            echo "  --verbose, -v   Show detailed diagnostic output"
+            exit 0 ;;
+        *) echo "Unknown option: $arg" >&2; exit 1 ;;
+    esac
+done
 
 RED='\033[0;31m'
 GREEN='\033[0;32m'
@@ -21,13 +34,14 @@ NC='\033[0m'
 log_ok()   { echo -e "${GREEN}[OK]${NC}   $1"; }
 log_warn() { echo -e "${YELLOW}[WARN]${NC} $1"; }
 log_err()  { echo -e "${RED}[ERR]${NC}  $1"; }
-log_info() { echo "       $1"; }
+log_info() { $VERBOSE && echo "       $1" || true; }
 log_fix()  { echo -e "${BLUE}[FIX]${NC}  $1"; }
 log_step() { echo -e "\n${CYAN}▶ $1${NC}"; }
 
 echo -e "${CYAN}╔══════════════════════════════════════════╗${NC}"
 echo -e "${CYAN}║   PC 원격 제어 환경 설정 (Linux)         ║${NC}"
 echo -e "${CYAN}╚══════════════════════════════════════════╝${NC}"
+$VERBOSE && echo -e "       ${CYAN}verbose mode enabled${NC}" || true
 echo ""
 
 # root 확인

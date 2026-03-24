@@ -22,6 +22,9 @@
 chmod +x setup-remote-control.sh
 sudo ./setup-remote-control.sh
 
+# 상세 출력 모드
+sudo ./setup-remote-control.sh --verbose
+
 # 2. Parsec 연결 안 될 때
 chmod +x fix-parsec.sh
 sudo ./fix-parsec.sh
@@ -33,6 +36,9 @@ sudo ./fix-parsec.sh
 # 1. 초기 설정 (최초 1회)
 Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
 .\setup-remote-control.ps1
+
+# 상세 출력 모드
+.\setup-remote-control.ps1 -Verbose
 
 # 2. Parsec 에러 -14003 발생 시
 .\fix-parsec-wddm.ps1
